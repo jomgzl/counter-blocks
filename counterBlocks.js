@@ -1,5 +1,8 @@
 let number = document.querySelector("div");
 let section = document.querySelector("section");
+let colorInput = document.querySelector("input");
+let widthInput = document.getElementById("width");
+let heightInput = document.getElementById("height");
 
 console.log(number);
 
@@ -12,16 +15,14 @@ addButton.addEventListener("click", () => {
   state++;
   number.textContent = state;
 
-  let block = document.createElement("div");
+  const newBlock = {
+    color: colorInput.value,
+    width: widthInput.value || 50,
+    height: heightInput.value || 50,
+  };
 
-  block.id = "blockId";
+  const block = createBlock(newBlock);
 
-  block.style.height = "60px";
-  block.style.width = "60px";
-  block.style.backgroundColor = "navy";
-  block.style.margin = "5px";
-
-  section.style.display = "flex";
   section.append(block);
 });
 
@@ -29,9 +30,42 @@ substractButton.addEventListener("click", () => {
   if (state > 0) {
     state--;
     number.textContent = state;
-
-    let block = document.getElementById("blockId");
-
-    block.remove();
   }
 });
+
+function createBlock(newBlock = {}) {
+  const { color = "black", height = 50, width = 50 } = newBlock;
+  let block = document.createElement("div");
+
+  block.style.height = height + "px";
+  block.style.width = width + "px";
+  block.style.backgroundColor = color;
+
+  let closeButton = document.createElement("button");
+  closeButton.innerText = "❌";
+  closeButton.className = "closeButton";
+
+  let leftButton = document.createElement("button");
+  leftButton.innerText = "⬅️";
+  leftButton.className = "left";
+
+  let rightButton = document.createElement("button");
+  rightButton.innerText = "➡️";
+  rightButton.className = "right";
+
+  let topButton = document.createElement("button");
+  topButton.innerText = "⬆️";
+  topButton.className = "top";
+
+  let bottomButton = document.createElement("button");
+  bottomButton.innerText = "⬇️";
+  bottomButton.className = "bottom";
+
+  block.append(closeButton, leftButton, rightButton, topButton, bottomButton);
+
+  closeButton.addEventListener("click", () => {
+    block.remove();
+  });
+
+  return block;
+}

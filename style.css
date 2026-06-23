@@ -1,0 +1,41 @@
+section {
+    display: flex;
+    gap: 50px;
+    padding: 20px;
+    margin: 20px;
+    flex-wrap: wrap;
+
+    div {
+        position: relative;
+
+        .closeButton {
+            top: 5px;
+            right: 5px;
+        }
+        button {
+            position: absolute;
+            background: none;
+            border: none;
+        }
+        .left {
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .right {
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .top {
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .bottom {
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}
