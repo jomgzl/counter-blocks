@@ -1,3 +1,9 @@
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
 section {
     display: flex;
     gap: 50px;
@@ -6,7 +12,7 @@ section {
     flex-wrap: wrap;
 
     div {
-        position: relative;
+        position: absolute;
 
         .closeButton {
             top: 5px;
