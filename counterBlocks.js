@@ -4,25 +4,30 @@ let colorInput = document.querySelector("input");
 let widthInput = document.getElementById("width");
 let heightInput = document.getElementById("height");
 
-console.log(number);
+let state = 0;
+let blockId = 0;
 
 let blocks = [];
 let memory = localStorage.getItem("blocks");
 
 if (memory) {
   blocks = JSON.parse(memory);
+  state = blocks.length;
+  number.textContent = state;
+  if (blocks.length) {
+    blockId = blocks.at(-1).id;
+  } else {
+    blockId = 1;
+  }
 }
 
 for (let i = 0; i < blocks.length; i++) {
   const block = createBlock(blocks[i]);
-
   section.append(block);
 }
 
 let addButton = document.getElementById("add");
 let substractButton = document.getElementById("substract");
-
-let state = 0;
 
 addButton.addEventListener("click", () => {
   state++;
@@ -32,6 +37,7 @@ addButton.addEventListener("click", () => {
   let height = +heightInput.value || 50;
 
   const newBlock = {
+    id: blockId,
     color: colorInput.value,
     width: width,
     height: height,
@@ -42,11 +48,12 @@ addButton.addEventListener("click", () => {
       30,
   };
 
+  blockId++;
+
+  const block = createBlock(newBlock);
+
   blocks.push(newBlock);
   localStorage.setItem("blocks", JSON.stringify(blocks));
-
-  console.log(newBlock);
-  const block = createBlock(newBlock);
 
   section.append(block);
 });
@@ -55,11 +62,22 @@ substractButton.addEventListener("click", () => {
   if (state > 0) {
     state--;
     number.textContent = state;
+
+    blocks.pop();
+    section.lastElementChild.remove();
+    localStorage.setItem("blocks", JSON.stringify(blocks));
   }
 });
 
 function createBlock(newBlock = {}) {
-  const { color = "black", height = 50, width = 50, left, top } = newBlock;
+  const {
+    id,
+    color = "black",
+    height = 50,
+    width = 50,
+    left,
+    top,
+  } = newBlock;
   let block = document.createElement("div");
 
   block.style.height = height + "px";
@@ -78,6 +96,7 @@ function createBlock(newBlock = {}) {
 
   leftButton.addEventListener("click", () => {
     newBlock.left--;
+    localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.left = newBlock.left + "px";
   });
 
@@ -87,6 +106,7 @@ function createBlock(newBlock = {}) {
 
   rightButton.addEventListener("click", () => {
     newBlock.left++;
+    localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.left = newBlock.left + "px";
   });
 
@@ -96,6 +116,7 @@ function createBlock(newBlock = {}) {
 
   topButton.addEventListener("click", () => {
     newBlock.top--;
+    localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.top = newBlock.top + "px";
   });
 
@@ -105,6 +126,7 @@ function createBlock(newBlock = {}) {
 
   bottomButton.addEventListener("click", () => {
     newBlock.top++;
+    localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.top = newBlock.top + "px";
   });
 
@@ -112,6 +134,9 @@ function createBlock(newBlock = {}) {
 
   closeButton.addEventListener("click", () => {
     block.remove();
+    const index = blocks.findIndex((item) => id == item.id);
+    blocks.splice(index, 1);
+    localStorage.setItem("blocks", JSON.stringify(blocks));
   });
 
   return block;
