@@ -74,8 +74,6 @@ function createBlock(newBlock = {}) {
   const { id, color = "black", height = 50, width = 50, left, top } = newBlock;
   let block = document.createElement("div");
 
-  // handleWriteBlocks(newBlock);
-
   block.style.height = height + "px";
   block.style.width = width + "px";
   block.style.left = left + "px";
