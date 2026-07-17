@@ -5,7 +5,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5500",
+    origin: "https://counter-blocks-fe-production.up.railway.app",
   }),
 );
 
