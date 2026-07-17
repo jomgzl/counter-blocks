@@ -1,3 +1,6 @@
+import handleReadBlocks from "./utils/handleReadBlocks.js";
+import handleWriteBlocks from "./utils/handleWriteBlocks.js";
+
 let number = document.querySelector("div");
 let section = document.querySelector("section");
 let colorInput = document.querySelector("input");
@@ -7,18 +10,14 @@ let heightInput = document.getElementById("height");
 let state = 0;
 let blockId = 0;
 
-let blocks = [];
-let memory = localStorage.getItem("blocks");
+let blocks = await handleReadBlocks();
 
-if (memory) {
-  blocks = JSON.parse(memory);
-  state = blocks.length;
-  number.textContent = state;
-  if (blocks.length) {
-    blockId = blocks.at(-1).id;
-  } else {
-    blockId = 1;
-  }
+state = blocks.length;
+number.textContent = state;
+if (blocks.length) {
+  blockId = blocks.at(-1).id + 1;
+} else {
+  blockId = 1;
 }
 
 for (let i = 0; i < blocks.length; i++) {
@@ -55,6 +54,8 @@ addButton.addEventListener("click", () => {
   blocks.push(newBlock);
   localStorage.setItem("blocks", JSON.stringify(blocks));
 
+  handleWriteBlocks(newBlock);
+
   section.append(block);
 });
 
@@ -70,15 +71,10 @@ substractButton.addEventListener("click", () => {
 });
 
 function createBlock(newBlock = {}) {
-  const {
-    id,
-    color = "black",
-    height = 50,
-    width = 50,
-    left,
-    top,
-  } = newBlock;
+  const { id, color = "black", height = 50, width = 50, left, top } = newBlock;
   let block = document.createElement("div");
+
+  // handleWriteBlocks(newBlock);
 
   block.style.height = height + "px";
   block.style.width = width + "px";
@@ -95,7 +91,7 @@ function createBlock(newBlock = {}) {
   leftButton.className = "left";
 
   leftButton.addEventListener("click", () => {
-    newBlock.left--;
+    newBlock.left -= 10;
     localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.left = newBlock.left + "px";
   });
@@ -105,7 +101,7 @@ function createBlock(newBlock = {}) {
   rightButton.className = "right";
 
   rightButton.addEventListener("click", () => {
-    newBlock.left++;
+    newBlock.left += 10;
     localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.left = newBlock.left + "px";
   });
@@ -115,7 +111,7 @@ function createBlock(newBlock = {}) {
   topButton.className = "top";
 
   topButton.addEventListener("click", () => {
-    newBlock.top--;
+    newBlock.top -= 10;
     localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.top = newBlock.top + "px";
   });
@@ -125,7 +121,7 @@ function createBlock(newBlock = {}) {
   bottomButton.className = "bottom";
 
   bottomButton.addEventListener("click", () => {
-    newBlock.top++;
+    newBlock.top += 10;
     localStorage.setItem("blocks", JSON.stringify(blocks));
     block.style.top = newBlock.top + "px";
   });
@@ -133,6 +129,8 @@ function createBlock(newBlock = {}) {
   block.append(closeButton, leftButton, rightButton, topButton, bottomButton);
 
   closeButton.addEventListener("click", () => {
+    state--;
+    number.textContent = state;
     block.remove();
     const index = blocks.findIndex((item) => id == item.id);
     blocks.splice(index, 1);
