@@ -138,8 +138,9 @@ function createBlock(newBlock = {}) {
   return block;
 }
 
-postButton.addEventListener("click", (newBlock) => {
+console.log("Post button: ", postButton);
 
+postButton.addEventListener("click", (newBlock) => {
   console.log("New block:", newBlock);
   handleWriteBlocks(newBlock);
-})
+});
