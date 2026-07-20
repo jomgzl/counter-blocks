@@ -12,7 +12,7 @@ export default async function handleWriteBlocks(newBlock) {
         throw new Error(`There was an error ${response.status}`);
       }
       if (response.status === 200) {
-        console.log("Request has succeeded");
+        console.log("Request has");
       }
     })
     .catch((error) => {
