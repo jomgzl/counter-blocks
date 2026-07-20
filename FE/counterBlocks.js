@@ -55,7 +55,6 @@ addButton.addEventListener("click", () => {
   localStorage.setItem("blocks", JSON.stringify(blocks));
 
   handleWriteBlocks(newBlock);
-  console.log("Test");
 
   section.append(block);
 });
@@ -138,8 +137,6 @@ function createBlock(newBlock = {}) {
 
   return block;
 }
-
-console.log("Post button: ", postButton);
 
 postButton.addEventListener("click", (newBlock) => {
   console.log("New block:", newBlock);

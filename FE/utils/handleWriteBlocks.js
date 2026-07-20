@@ -1,6 +1,5 @@
 export default async function handleWriteBlocks(newBlock) {
-  console.log("In the post fetch");
-  const request = await fetch("https://counter-blocks-be-production.up.railway.app/blocks", {
+  const request = await fetch("https://counter-blocks-be-production.up.railway.app/", {
     method: "POST",
     body: JSON.stringify(newBlock),
     headers: {
@@ -12,7 +11,7 @@ export default async function handleWriteBlocks(newBlock) {
         throw new Error(`There was an error ${response.status}`);
       }
       if (response.status === 200) {
-        console.log("Request has");
+        console.log("Request has succeeded");
       }
     })
     .catch((error) => {
