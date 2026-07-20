@@ -140,6 +140,6 @@ function createBlock(newBlock = {}) {
 
 postButton.addEventListener("click", (newBlock) => {
 
-  console.log(newBlock);
+  console.log("New block:", newBlock);
   handleWriteBlocks(newBlock);
 })
