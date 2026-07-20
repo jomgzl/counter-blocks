@@ -1,4 +1,5 @@
 export default async function handleWriteBlocks(newBlock) {
+  console.log("In the post fetch");
   const request = await fetch("https://counter-blocks-be-production.up.railway.app/blocks", {
     method: "POST",
     body: JSON.stringify(newBlock),
