@@ -6,6 +6,9 @@ let section = document.querySelector("section");
 let colorInput = document.querySelector("input");
 let widthInput = document.getElementById("width");
 let heightInput = document.getElementById("height");
+let addButton = document.getElementById("add");
+let substractButton = document.getElementById("substract");
+let postButton = document.getElementById("post");
 
 let state = 0;
 let blockId = 0;
@@ -24,9 +27,6 @@ for (let i = 0; i < blocks.length; i++) {
   const block = createBlock(blocks[i]);
   section.append(block);
 }
-
-let addButton = document.getElementById("add");
-let substractButton = document.getElementById("substract");
 
 addButton.addEventListener("click", () => {
   state++;
@@ -137,3 +137,9 @@ function createBlock(newBlock = {}) {
 
   return block;
 }
+
+postButton.addEventListener("click", (newBlock) => {
+
+  console.log(newBlock);
+  handleWriteBlocks(newBlock);
+})
