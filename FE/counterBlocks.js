@@ -55,6 +55,7 @@ addButton.addEventListener("click", () => {
   localStorage.setItem("blocks", JSON.stringify(blocks));
 
   handleWriteBlocks(newBlock);
+  console.log("Test");
 
   section.append(block);
 });
