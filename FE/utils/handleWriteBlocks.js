@@ -1,5 +1,5 @@
 export default async function handleWriteBlocks(newBlock) {
-  const request = await fetch("https://counter-blocks-be-production.up.railway.app/", {
+  const request = await fetch("https://counter-blocks-be-production.up.railway.app/blocks", {
     method: "POST",
     body: JSON.stringify(newBlock),
     headers: {
