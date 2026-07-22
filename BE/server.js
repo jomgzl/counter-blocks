@@ -1,11 +1,14 @@
 const express = require("express");
 const cors = require("cors");
+const uuid = require("uuid");
+console.log(uuid.v4());
 
 const app = express();
 
 app.use(
   cors({
-    origin: "https://counter-blocks-fe-production.up.railway.app",
+    // origin: "https://counter-blocks-fe-production.up.railway.app",
+    origin: "http://localhost:5500",
   }),
 );
 
@@ -22,64 +25,24 @@ app.get("/counter", (req, res) => {
   res.json({ counter });
 });
 
-const blocks = [
-  {
-    id: 1,
-    color: "#000000",
-    width: 50,
-    height: 50,
-    left: 298,
-    top: 464,
-  },
-  {
-    id: 2,
-    color: "#000000",
-    width: 50,
-    height: 50,
-    left: 171,
-    top: 365,
-  },
-  {
-    id: 3,
-    color: "#000000",
-    width: 50,
-    height: 50,
-    left: 637,
-    top: 136,
-  },
-  {
-    id: 4,
-    color: "#000000",
-    width: 50,
-    height: 50,
-    left: 498,
-    top: 253,
-  },
-  {
-    id: 5,
-    color: "red",
-    width: 50,
-    height: 50,
-    left: 47,
-    top: 464,
-  },
-  {
-    id: 6,
-    color: "#000000",
-    width: 50,
-    height: 50,
-    left: 361,
-    top: 132,
-  },
-];
+const blocks = {};
 
-app.get("/blocks", (req, res) => {
-  res.status(200).json(blocks);
+app.get("/blocks/:id", (req, res) => {
+  const id = req.params.id;
+  if (!id) {
+    return res.sendStatus(400);
+  }
+  const block = blocks[id];
+  if (!block) {
+    return res.sendStatus(404);
+  }
+  res.status(200).json(block);
 });
 
 app.post("/blocks", (req, res) => {
-  blocks.push(req.body);
-  res.sendStatus(200);
+  const id = uuid.v4();
+  blocks[id] = req.body;
+  res.status(200).send(id);
 });
 
 app.listen(3000, (err) => {

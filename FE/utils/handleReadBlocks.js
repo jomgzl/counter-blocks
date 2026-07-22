@@ -1,5 +1,5 @@
-export default async function handleReadBlocks() {
-  const request = await fetch("https://counter-blocks-be-production.up.railway.app/blocks");
+export default async function handleReadBlocks(id) {
+  const request = await fetch(`http://localhost:3000/blocks/${id}`);
   if (request.status === 200) {
     return await request.json();
   } else {

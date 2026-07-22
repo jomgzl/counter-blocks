@@ -9,11 +9,19 @@ let heightInput = document.getElementById("height");
 let addButton = document.getElementById("add");
 let substractButton = document.getElementById("substract");
 let postButton = document.getElementById("post");
+let textArea = document.getElementById("text-area");
 
 let state = 0;
 let blockId = 0;
 
-let blocks = await handleReadBlocks();
+const url = new URL(location.href);
+const id = url.searchParams.get("id");
+
+let blocks = [];
+
+if (id) {
+  blocks = await handleReadBlocks(id);
+}
 
 state = blocks.length;
 number.textContent = state;
@@ -53,8 +61,6 @@ addButton.addEventListener("click", () => {
 
   blocks.push(newBlock);
   localStorage.setItem("blocks", JSON.stringify(blocks));
-
-  handleWriteBlocks(newBlock);
 
   section.append(block);
 });
@@ -138,7 +144,12 @@ function createBlock(newBlock = {}) {
   return block;
 }
 
-postButton.addEventListener("click", (newBlock) => {
-  console.log("New block:", newBlock);
-  handleWriteBlocks(newBlock);
+postButton.addEventListener("click", async () => {
+  console.log("New block:", blocks);
+  const id = await handleWriteBlocks(blocks);
+  const url = new URL(location.href);
+  url.searchParams.set("id", id);
+  textArea.setAttribute("href", url.toString());
+  textArea.innerText = "Image with " + blocks.length + " blocks";
+  localStorage.removeItem("blocks");
 });
