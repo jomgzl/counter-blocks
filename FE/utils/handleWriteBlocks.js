@@ -1,10 +1,10 @@
-export default async function handleWriteBlocks(blocks) {
+export default async function handleWriteBlocks(blocks, name) {
   return await fetch(
     // "https://counter-blocks-be-production.up.railway.app/blocks",
     "http://localhost:3000/blocks",
     {
       method: "POST",
-      body: JSON.stringify(blocks),
+      body: JSON.stringify({ blocks: blocks, name: name }),
       headers: {
         "Content-type": "application/json",
       },

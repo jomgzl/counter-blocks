@@ -10,9 +10,13 @@ let addButton = document.getElementById("add");
 let substractButton = document.getElementById("substract");
 let postButton = document.getElementById("post");
 let textArea = document.getElementById("text-area");
+let name = document.getElementById("name");
 
 let state = 0;
 let blockId = 0;
+let numberOfImage = {
+  number: 1,
+};
 
 const url = new URL(location.href);
 const id = url.searchParams.get("id");
@@ -20,7 +24,9 @@ const id = url.searchParams.get("id");
 let blocks = [];
 
 if (id) {
-  blocks = await handleReadBlocks(id);
+  let { blocks: newBlocks, name: newName } = await handleReadBlocks(id);
+  blocks = newBlocks;
+  name.value = newName;
 }
 
 state = blocks.length;
@@ -145,11 +151,11 @@ function createBlock(newBlock = {}) {
 }
 
 postButton.addEventListener("click", async () => {
-  console.log("New block:", blocks);
-  const id = await handleWriteBlocks(blocks);
+  console.log(name.value);
+  const id = await handleWriteBlocks(blocks, name.value);
   const url = new URL(location.href);
   url.searchParams.set("id", id);
   textArea.setAttribute("href", url.toString());
-  textArea.innerText = "Image with " + blocks.length + " blocks";
+  textArea.innerText = name.value;
   localStorage.removeItem("blocks");
 });

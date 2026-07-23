@@ -32,7 +32,9 @@ app.get("/blocks/:id", (req, res) => {
   if (!id) {
     return res.sendStatus(400);
   }
+  console.log(id, blocks);
   const block = blocks[id];
+  // const name = blocks[id].name;
   if (!block) {
     return res.sendStatus(404);
   }
@@ -41,7 +43,9 @@ app.get("/blocks/:id", (req, res) => {
 
 app.post("/blocks", (req, res) => {
   const id = uuid.v4();
-  blocks[id] = req.body;
+  const { name, blocks: newBlocks } = req.body;
+  console.log(name, newBlocks, id);
+  blocks[id] = { name, blocks: newBlocks };
   res.status(200).send(id);
 });
 
