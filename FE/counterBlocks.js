@@ -156,6 +156,6 @@ postButton.addEventListener("click", async () => {
   const url = new URL(location.href);
   url.searchParams.set("id", id);
   textArea.setAttribute("href", url.toString());
-  textArea.innerText = name.value;
+  textArea.innerText = name.value || "image" ;
   localStorage.removeItem("blocks");
 });
