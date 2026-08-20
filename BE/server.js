@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const uuid = require("uuid");
 const mongodb = require("mongodb");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 console.log(uuid.v4());
@@ -54,31 +55,51 @@ app.get("/counter", (req, res) => {
 
 const blocks = {};
 
-app.get("/blocks/:id", (req, res) => {
-  const id = req.params.id;
-  if (!id) {
-    return res.sendStatus(400);
+app.get("/blocks/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      return res.sendStatus(400);
+    }
+
+    const idMongoDb = new mongoose.Types.ObjectId(id);
+
+    await client.connect();
+    const block = await client
+      .db("blocks")
+      .collection("pictures")
+      .findOne({ _id: idMongoDb });
+    console.log("ID in get: ", id);
+    client.close();
+
+    if (!block) {
+      return res.sendStatus(404);
+    }
+
+    console.log("In GET: ", block);
+
+    res.status(200).json(block);
+  } catch (e) {
+    // Send notification to Whatsapp
+    res.sendStatus(500);
   }
-  console.log(id, blocks);
-  const block = blocks[id];
-  // const name = blocks[id].name;
-  if (!block) {
-    return res.sendStatus(404);
-  }
-  res.status(200).json(block);
 });
 
 app.post("/blocks", async (req, res) => {
-  const id = uuid.v4();
+  // const id = uuid.v4();
   const { name, blocks: newBlocks } = req.body;
-  blocks[id] = { name, blocks: newBlocks };
+  if (!name || newBlocks.length === 0) {
+    return res.sendStatus(422);
+  }
+  // blocks[id] = { name, blocks: newBlocks };
 
   // client.connect((err) => {
   //   const collection = client
   //     .db("blocks")
   //     .collection("<collectionName>");
   //   // perform actions on the collection object
-  //   
+  //
   // });
 
   await client.connect();
@@ -89,7 +110,7 @@ app.post("/blocks", async (req, res) => {
   });
   client.close();
 
-  console.log(result);
+  const id = result.insertedId.toString();
   res.status(200).send(id);
 });
 
