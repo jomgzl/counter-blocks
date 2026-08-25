@@ -9,16 +9,16 @@
   </head>
   <body>
     <div class="number-of-blocks">0</div>
-    <div class="vertical-box">
+    <form class="vertical-box">
       <button id="add">+</button>
       <button id="substract">-</button>
       <input type="color" />
-      <input id="width" type="number">
-      <input id= "height" type="number">
+      <input id="width" type="number" required min="1">
+      <input id= "height" type="number" required min="1">
       <button id="post">POST</button>
       <a target="_blank" id="text-area"></a>
-      <input id="name"/>
-     </div>
+      <input id="name" required/>
+    </form>
     <section></section>
   </body>
 </html>

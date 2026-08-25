@@ -8,7 +8,7 @@ let widthInput = document.getElementById("width");
 let heightInput = document.getElementById("height");
 let addButton = document.getElementById("add");
 let substractButton = document.getElementById("substract");
-let postButton = document.getElementById("post");
+let form = document.querySelector("form");
 let textArea = document.getElementById("text-area");
 let name = document.getElementById("name");
 
@@ -96,65 +96,70 @@ function createBlock(newBlock = {}) {
   block.style.top = top + "px";
   block.style.backgroundColor = color;
 
-  let closeButton = document.createElement("button");
-  closeButton.innerText = "❌";
-  closeButton.className = "closeButton";
+  const buttonsArray = [
+    {
+      innerText: "⬅️",
+      className: "left",
+      onclick() {
+        newBlock.left -= 10;
+        block.style.left = newBlock.left + "px";
+        localStorage.setItem("blocks", JSON.stringify(blocks));
+      },
+    },
+    {
+      innerText: "➡️",
+      className: "right",
+      onclick() {
+        newBlock.left += 10;
+        block.style.left = newBlock.left + "px";
+        localStorage.setItem("blocks", JSON.stringify(blocks));
+      },
+    },
+    {
+      innerText: "⬆️",
+      className: "top",
+      onclick() {
+        newBlock.top -= 10;
+        block.style.top = newBlock.top + "px";
+        localStorage.setItem("blocks", JSON.stringify(blocks));
+      },
+    },
+    {
+      innerText: "⬇️",
+      className: "bottom",
+      onclick() {
+        newBlock.top += 10;
+        block.style.top = newBlock.top + "px";
+        localStorage.setItem("blocks", JSON.stringify(blocks));
+      },
+    },
+    {
+      innerText: "❌",
+      className: "closeButton",
+      onclick() {
+        state--;
+        number.textContent = state;
+        block.remove();
+        const index = blocks.findIndex((item) => id == item.id);
+        blocks.splice(index, 1);
+        localStorage.setItem("blocks", JSON.stringify(blocks));
+      },
+    },
+  ];
 
-  let leftButton = document.createElement("button");
-  leftButton.innerText = "⬅️";
-  leftButton.className = "left";
-
-  leftButton.addEventListener("click", () => {
-    newBlock.left -= 10;
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-    block.style.left = newBlock.left + "px";
-  });
-
-  let rightButton = document.createElement("button");
-  rightButton.innerText = "➡️";
-  rightButton.className = "right";
-
-  rightButton.addEventListener("click", () => {
-    newBlock.left += 10;
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-    block.style.left = newBlock.left + "px";
-  });
-
-  let topButton = document.createElement("button");
-  topButton.innerText = "⬆️";
-  topButton.className = "top";
-
-  topButton.addEventListener("click", () => {
-    newBlock.top -= 10;
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-    block.style.top = newBlock.top + "px";
-  });
-
-  let bottomButton = document.createElement("button");
-  bottomButton.innerText = "⬇️";
-  bottomButton.className = "bottom";
-
-  bottomButton.addEventListener("click", () => {
-    newBlock.top += 10;
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-    block.style.top = newBlock.top + "px";
-  });
-
-  block.append(closeButton, leftButton, rightButton, topButton, bottomButton);
-
-  closeButton.addEventListener("click", () => {
-    state--;
-    number.textContent = state;
-    block.remove();
-    const index = blocks.findIndex((item) => id == item.id);
-    blocks.splice(index, 1);
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-  });
+  for (let i = 0; i < buttonsArray.length; i++) {
+    let button = document.createElement("button");
+    button.innerText = buttonsArray[i].innerText;
+    button.className = buttonsArray[i].className;
+    button.onclick = buttonsArray[i].onclick;
+    block.append(button);
+  }
 
   return block;
 }
 
-postButton.addEventListener("click", async () => {
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
   console.log(name.value);
   const id = await handleWriteBlocks(blocks, name.value);
   const url = new URL(location.href);
@@ -162,4 +167,7 @@ postButton.addEventListener("click", async () => {
   textArea.setAttribute("href", url.toString());
   textArea.innerText = name.value || "image";
   localStorage.removeItem("blocks");
+  blocks = [];
+  section.innerHTML = "";
+  form.reset();
 });

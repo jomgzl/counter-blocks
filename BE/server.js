@@ -102,6 +102,9 @@ app.post("/blocks", async (req, res) => {
   //
   // });
 
+  if() {
+    
+  }
   await client.connect();
 
   const result = await client.db("blocks").collection("pictures").insertOne({
