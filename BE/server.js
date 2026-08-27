@@ -3,7 +3,31 @@ const cors = require("cors");
 const uuid = require("uuid");
 const mongodb = require("mongodb");
 const mongoose = require("mongoose");
+const CronJob = require("cron").CronJob;
 require("dotenv").config();
+
+const blocks = {};
+
+const job = new CronJob(
+  "*/1 * * * *", // cronTime
+  async function () {
+    console.log("Adding to MongoDB");
+
+    let filtered = Object.values(blocks).filter((block) => !block.inMemory);
+    if (filtered.length) {
+      //Post in MongoDB
+      await client.connect();
+
+      await client.db("blocks").collection("pictures").insertMany(filtered);
+      filtered.forEach((block) => (block.inMemory = true));
+      client.close();
+      console.log("Synchronization finished.");
+    } else console.log("Nothing to update");
+  }, // onTick
+  null, // onComplete
+  true, // start
+  "Europe/London", // timeZone
+);
 
 console.log(uuid.v4());
 
@@ -27,12 +51,13 @@ const client = new mongodb.MongoClient(process.env.MONGO_URL, {
     deprecationErrors: true,
   },
 });
-async function runStableAPIConnect() {
+async function runStableAPIConnect(callback) {
   try {
     // Connect the client to the server (optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
     const result = await client.db("blocks").command({ ping: 1 });
+    await callback();
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!",
     );
@@ -53,8 +78,6 @@ app.get("/counter", (req, res) => {
   res.json({ counter });
 });
 
-const blocks = {};
-
 app.get("/blocks/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -63,15 +86,17 @@ app.get("/blocks/:id", async (req, res) => {
       return res.sendStatus(400);
     }
 
-    const idMongoDb = new mongoose.Types.ObjectId(id);
+    // const idMongoDb = new mongoose.Types.ObjectId(id);
 
-    await client.connect();
-    const block = await client
-      .db("blocks")
-      .collection("pictures")
-      .findOne({ _id: idMongoDb });
-    console.log("ID in get: ", id);
-    client.close();
+    // await client.connect();
+    // const block = await client
+    //   .db("blocks")
+    //   .collection("pictures")
+    //   .findOne({ _id: idMongoDb });
+    // console.log("ID in get: ", id);
+    // client.close();
+
+    const block = blocks[id];
 
     if (!block) {
       return res.sendStatus(404);
@@ -103,22 +128,44 @@ app.post("/blocks", async (req, res) => {
   // });
 
   // if() {
-    
-  // }
-  await client.connect();
 
-  const result = await client.db("blocks").collection("pictures").insertOne({
+  // }
+  // await client.connect();
+
+  // const result = await client.db("blocks").collection("pictures").insertOne({
+  //   name,
+  //   blocks: newBlocks,
+  // });
+  // client.close();
+
+  // const id = result.insertedId.toString();
+
+  const id = new mongoose.Types.ObjectId().toString();
+
+  blocks[id] = {
+    _id: id,
     name,
     blocks: newBlocks,
-  });
-  client.close();
+  };
 
-  const id = result.insertedId.toString();
+  console.log("My cache:", blocks);
+
   res.status(200).send(id);
 });
 
-app.listen(3000, (err) => {
+app.listen(3000, async (err) => {
   if (err) console.log(err);
   console.log("server is running");
-  runStableAPIConnect().catch(console.dir);
+  runStableAPIConnect(async () => {
+    const blocksArray = await client
+      .db("blocks")
+      .collection("pictures")
+      .find({})
+      .toArray();
+    blocksArray.forEach((block) => {
+      block.inMemory = true;
+      blocks[block._id] = block;
+    });
+    console.log("Number of records added:", blocksArray.length);
+  }).catch(console.dir);
 });
