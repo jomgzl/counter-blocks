@@ -1,6 +1,7 @@
 import handleReadBlocks from "./utils/handleReadBlocks.js";
 import handleWriteBlocks from "./utils/handleWriteBlocks.js";
 
+
 let number = document.querySelector("div");
 let section = document.querySelector("section");
 let colorInput = document.querySelector("input");

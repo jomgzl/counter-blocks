@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cron": "^4.4.0",
     "mongodb": "^7.5.0",
     "mongoose": "^9.9.3",
     "uuid": "^14.0.1"
