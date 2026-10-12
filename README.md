@@ -23,7 +23,7 @@ git clone https://github.com/jomgzl/counter-blocks.git <br>
 cd counter-blocks <br>
 npm install
 
-The update the .env in the BE folder <br>
+Create an .env file in the BE folder <br>
 cd BE <br>
 FRONTEND_URL=http://localhost:5500 <br>
 MONGO_URL=mongodb+srv://MY_DATABASE_USERNAME:MY_PASSWORD@MY_CLUSTER.example.mongodb.net/?appName=MY_CLUSTER
