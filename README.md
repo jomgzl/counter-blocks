@@ -23,8 +23,7 @@ git clone https://github.com/jomgzl/counter-blocks.git <br>
 cd counter-blocks <br>
 npm install
 
-Then run the server:
-
+Then run the server: <br>
 cd BE <br>
 node server.js
 
