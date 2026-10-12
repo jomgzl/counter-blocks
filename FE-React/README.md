@@ -1,5 +1,5 @@
-# Meteo Voyage
-This is a weather forecast app. It allows the user to get the weather of any city and save it as a favourite.
+# Counter Blocks
+This is an application that allows to create block sessions. These sessions contain randomly positionned blocks on the screen.
 
 ## Tech stack
 * Vanilla JavaScript
@@ -22,11 +22,6 @@ This is a weather forecast app. It allows the user to get the weather of any cit
 git clone https://github.com/jomgzl/counter-blocks.git
 cd counter-blocks
 npm install
-
-Create a .env file in the project root:
-
-OPENWEATHER_API_KEY=your_api_key_here
-Get a free key at openweathermap.org/api.
 
 Then run the server:
 
