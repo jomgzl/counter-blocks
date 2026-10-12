@@ -1,78 +1,43 @@
-# React + TypeScript + Vite
+# Meteo Voyage
+This is a weather forecast app. It allows the user to get the weather of any city and save it as a favourite.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tech stack
+* Vanilla JavaScript
+* TypeScript
+* Express.js
+* React
+* CSS
+* HTML
+* MongoDB
+* Rest API
 
-Currently, two official plugins are available:
+## Features
+* **Add blocks:** Adding as many blocks as one wants, with specific colors and sizes. Blocks appear at random places on the screen
+* **Delete blocks:** Possibility to delete blocks
+* **Move blocks:** Each block can be moved on the screen
+* **Save the current block session:** Ability to save a block session and reopen it in a new window. Possibility to give a title to each block session
+* **Update the database every minute:** Cronjob that updates the database every minute, by adding to it the blocks of the modified sessions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Getting started
+git clone https://github.com/jomgzl/counter-blocks.git
+cd counter-blocks
+npm install
 
-## React Compiler
+Create a .env file in the project root:
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+OPENWEATHER_API_KEY=your_api_key_here
+Get a free key at openweathermap.org/api.
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+Then run the server:
 
-## Expanding the ESLint configuration
+cd BE
+node server.js
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+For the Vanilla JavaScript frontend:
+I use the Live Server plugin by Ritwick Dey on VS code
+Then in the browser : http://localhost:5500/FE/
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+For the React frontend:
+cd FE-React
+npm run dev
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
