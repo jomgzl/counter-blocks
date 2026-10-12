@@ -19,20 +19,20 @@ This is an application that allows to create block sessions. These sessions cont
 * **Update the database every minute:** Cronjob that updates the database every minute, by adding to it the blocks of the modified sessions
 
 ## Getting started
-git clone https://github.com/jomgzl/counter-blocks.git
-cd counter-blocks
+git clone https://github.com/jomgzl/counter-blocks.git <br>
+cd counter-blocks <br>
 npm install
 
 Then run the server:
 
-cd BE
+cd BE <br>
 node server.js
 
-For the Vanilla JavaScript frontend:
-I use the Live Server plugin by Ritwick Dey on VS code
+For the Vanilla JavaScript frontend: <br>
+I use the Live Server plugin by Ritwick Dey on VS code <br>
 Then in the browser : http://localhost:5500/FE/
 
-For the React frontend:
-cd FE-React
+For the React frontend: <br>
+cd FE-React <br>
 npm run dev
 
