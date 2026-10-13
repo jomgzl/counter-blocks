@@ -16,7 +16,9 @@ This is an application that allows to create block sessions. These sessions cont
 * **Delete blocks:** Possibility to delete blocks
 * **Move blocks:** Each block can be moved on the screen
 * **Save the current block session:** Ability to save a block session and reopen it in a new window. Possibility to give a title to each block session
-* **Update the database every minute:** Cronjob that updates the database every minute, by adding to it the blocks of the modified sessions
+
+## Technical choices
+* **Update the database every minute:** Cronjob that updates the database every minute, by adding to it the blocks of the modified sessions. This allows us to stay in the MongoDB freeplan.
 
 ## Getting started
 git clone https://github.com/jomgzl/counter-blocks.git <br>

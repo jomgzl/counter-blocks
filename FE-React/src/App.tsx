@@ -98,7 +98,11 @@ function App({ initialCount }: { initialCount: number }) {
       {count !== 5 && <button onClick={handleIncrement}>Increment</button>}
       <section>
         {blocks.map((block, index) => (
-          <Block key={index} block={block} />
+          <Block
+            key={block.top + block.left}
+            block={block}
+            setBlocks={setBlocks}
+          />
         ))}
       </section>
     </div>

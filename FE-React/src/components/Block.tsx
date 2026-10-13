@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { BlockT } from "../types";
 
-function Block({ block }: { block: BlockT }) {
+function Block({ block, setBlocks }: { block: BlockT }) {
   const [left, setLeft] = useState(block.left);
   const [top, setTop] = useState(block.top);
 
@@ -43,14 +43,19 @@ function Block({ block }: { block: BlockT }) {
     {
       innerText: "❌",
       className: "closeButton",
-      // onclick() {
-      //   state--;
-      //   number.textContent = state;
-      //   block.remove();
-      //   const index = blocks.findIndex((block) => id == block.id);
-      //   blocks.splice(index, 1);
-      //   localStorage.setBlock("blocks", JSON.stringify(blocks));
-      // },
+      onclick() {
+        console.log("TEST");
+        setBlocks((prevBlocks) => {
+          const copy = [...prevBlocks];
+          const index = prevBlocks.findIndex(
+            (item) => block.top == item.top && block.left == item.left,
+          );
+          copy.splice(index, 1);
+          return copy;
+        });
+
+        localStorage.setBlock("blocks", JSON.stringify(blocks));
+      },
     },
   ];
 
