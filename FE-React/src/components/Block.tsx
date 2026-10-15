@@ -1,9 +1,21 @@
-import { useState } from "react";
 import type { BlockT } from "../types";
 
 function Block({ block, setBlocks }: { block: BlockT }) {
-  const [left, setLeft] = useState(block.left);
-  const [top, setTop] = useState(block.top);
+  // const [left, setLeft] = useState(block.left);
+  // const [top, setTop] = useState(block.top);
+
+  const handleMove = (left, top) => {
+    setBlocks((prevBlocks) => {
+      const index = prevBlocks.findIndex(
+        (item) => block.top == item.top && block.left == item.left,
+      );
+
+      prevBlocks[index].left = left;
+      prevBlocks[index].top = top;
+
+      return [...prevBlocks];
+    });
+  };
 
   const blocks: BlockT[] = [];
 
@@ -12,7 +24,7 @@ function Block({ block, setBlocks }: { block: BlockT }) {
       innerText: "⬅️",
       className: "left",
       onclick() {
-        setLeft(left - 10);
+        handleMove(block.left - 10, block.top);
         localStorage.setBlock("blocks", JSON.stringify(blocks));
       },
     },
@@ -20,7 +32,7 @@ function Block({ block, setBlocks }: { block: BlockT }) {
       innerText: "➡️",
       className: "right",
       onclick() {
-        setLeft(left + 10);
+        handleMove(block.left + 10, block.top);
         localStorage.setBlock("blocks", JSON.stringify(blocks));
       },
     },
@@ -28,7 +40,7 @@ function Block({ block, setBlocks }: { block: BlockT }) {
       innerText: "⬆️",
       className: "top",
       onclick() {
-        setTop(top - 10);
+        handleMove(block.left, block.top - 10);
         localStorage.setBlock("blocks", JSON.stringify(blocks));
       },
     },
@@ -36,7 +48,7 @@ function Block({ block, setBlocks }: { block: BlockT }) {
       innerText: "⬇️",
       className: "bottom",
       onclick() {
-        setTop(top + 10);
+        handleMove(block.left, block.top + 10);
         localStorage.setBlock("blocks", JSON.stringify(blocks));
       },
     },
@@ -52,6 +64,12 @@ function Block({ block, setBlocks }: { block: BlockT }) {
           );
           copy.splice(index, 1);
           return copy;
+          // const index = prevBlocks.findIndex(
+          //   (item) => block.top == item.top && block.left == item.left,
+          // );
+          // prevBlocks.splice(index, 1);
+          //    console.log(prevBlocks);
+          // return prevBlocks;
         });
 
         localStorage.setBlock("blocks", JSON.stringify(blocks));
@@ -62,8 +80,8 @@ function Block({ block, setBlocks }: { block: BlockT }) {
   return (
     <div
       style={{
-        left: left + "px",
-        top: top + "px",
+        left: block.left + "px",
+        top: block.top + "px",
         width: block.width + "px",
         height: block.height + "px",
         backgroundColor: block.color,
