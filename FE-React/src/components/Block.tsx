@@ -4,8 +4,8 @@ function Block({ block, setBlocks }: { block: BlockT }) {
   // const [left, setLeft] = useState(block.left);
   // const [top, setTop] = useState(block.top);
 
-  const handleMove = (left, top) => {
-    setBlocks((prevBlocks) => {
+  const handleMove = (left: number, top: number) => {
+    setBlocks((prevBlocks: BlockT[]) => {
       const index = prevBlocks.findIndex(
         (item) => block.top == item.top && block.left == item.left,
       );
@@ -57,7 +57,7 @@ function Block({ block, setBlocks }: { block: BlockT }) {
       className: "closeButton",
       onclick() {
         console.log("TEST");
-        setBlocks((prevBlocks) => {
+        setBlocks((prevBlocks: BlockT[]) => {
           const copy = [...prevBlocks];
           const index = prevBlocks.findIndex(
             (item) => block.top == item.top && block.left == item.left,

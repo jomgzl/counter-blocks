@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import type { BlockT } from "./types";
 import Block from "./components/Block";
+import handleReadBlocks from "./utils/handleReadBlocks";
 
 const uiFifty = 50;
 
@@ -67,7 +68,23 @@ function App({ initialCount }: { initialCount: number }) {
   // const initialCount = props.initialCount;
   // const { initialCount } = props;
   const [count, setCount] = useState(initialCount);
-  const [blocks, setBlocks] = useState<BlockT[]>(mocks);
+  const [blocks, setBlocks] = useState<BlockT[]>([]);
+
+  const url = new URL(location.href);
+  const id = url.searchParams.get("id");
+
+  console.log(blocks, id);
+
+  useEffect(() => {
+    console.log("Use Effect triggered");
+    if (id) {
+      console.log("Rerendered");
+      handleReadBlocks(id).then(({ blocks: newBlocks, name: newName }) => {
+        setBlocks(newBlocks);
+      });
+      // name.value = newName;
+    }
+  }, [id]);
 
   // let count = 1;
 
@@ -89,8 +106,6 @@ function App({ initialCount }: { initialCount: number }) {
     localStorage.setItem("blocks", JSON.stringify(blocks));
     setBlocks(blocks.concat(newBlock));
   };
-
-  console.log(blocks);
 
   return (
     <div style={{ backgroundColor: count > 3 ? "red" : "blue" }}>
