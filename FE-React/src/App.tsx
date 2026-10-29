@@ -3,66 +3,7 @@ import "./App.css";
 import type { BlockT } from "./types";
 import Block from "./components/Block";
 import handleReadBlocks from "./utils/handleReadBlocks";
-
-const uiFifty = 50;
-
-const mocks: BlockT[] = [
-  {
-    color: "blue",
-    width: uiFifty,
-    height: uiFifty,
-    left:
-      Math.round((window.innerWidth - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-    top:
-      Math.round((window.innerHeight - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-  },
-  {
-    color: "blue",
-    width: uiFifty,
-    height: uiFifty,
-    left:
-      Math.round((window.innerWidth - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-    top:
-      Math.round((window.innerHeight - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-  },
-  {
-    color: "blue",
-    width: uiFifty,
-    height: uiFifty,
-    left:
-      Math.round((window.innerWidth - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-    top:
-      Math.round((window.innerHeight - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-  },
-  {
-    color: "blue",
-    width: uiFifty,
-    height: uiFifty,
-    left:
-      Math.round((window.innerWidth - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-    top:
-      Math.round((window.innerHeight - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-  },
-  {
-    color: "blue",
-    width: uiFifty,
-    height: uiFifty,
-    left:
-      Math.round((window.innerWidth - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-    top:
-      Math.round((window.innerHeight - (uiFifty + 30 + 30)) * Math.random()) +
-      30,
-  },
-];
+import { uiFifty } from "./constants";
 
 function App({ initialCount }: { initialCount: number }) {
   // const initialCount = props.initialCount;
@@ -72,8 +13,6 @@ function App({ initialCount }: { initialCount: number }) {
 
   const url = new URL(location.href);
   const id = url.searchParams.get("id");
-
-  console.log(blocks, id);
 
   useEffect(() => {
     console.log("Use Effect triggered");
@@ -87,6 +26,8 @@ function App({ initialCount }: { initialCount: number }) {
   }, [id]);
 
   // let count = 1;
+
+  console.log(blocks, id);
 
   const handleIncrement = () => {
     console.log(count);
@@ -112,7 +53,7 @@ function App({ initialCount }: { initialCount: number }) {
       Hello {count}
       {count !== 5 && <button onClick={handleIncrement}>Increment</button>}
       <section>
-        {blocks.map((block, index) => (
+        {blocks.map((block) => (
           <Block
             key={block.top + block.left}
             block={block}

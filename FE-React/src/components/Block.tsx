@@ -1,19 +1,30 @@
 import type { BlockT } from "../types";
 
-function Block({ block, setBlocks }: { block: BlockT }) {
+function Block({
+  block,
+  setBlocks,
+}: {
+  block: BlockT;
+  setBlocks: React.Dispatch<React.SetStateAction<BlockT[]>>;
+}) {
   // const [left, setLeft] = useState(block.left);
   // const [top, setTop] = useState(block.top);
 
   const handleMove = (left: number, top: number) => {
     setBlocks((prevBlocks: BlockT[]) => {
+      const copy = [...prevBlocks];
       const index = prevBlocks.findIndex(
         (item) => block.top == item.top && block.left == item.left,
       );
 
-      prevBlocks[index].left = left;
-      prevBlocks[index].top = top;
+      console.log("IN HANDLE MOVE", top, left, index, prevBlocks);
 
-      return [...prevBlocks];
+      if (index >= 0) {
+        copy[index].left = left;
+        copy[index].top = top;
+      }
+
+      return copy;
     });
   };
 
@@ -62,7 +73,11 @@ function Block({ block, setBlocks }: { block: BlockT }) {
           const index = prevBlocks.findIndex(
             (item) => block.top == item.top && block.left == item.left,
           );
-          copy.splice(index, 1);
+
+          if (index >= 0) {
+            copy.splice(index, 1);
+          }
+
           return copy;
           // const index = prevBlocks.findIndex(
           //   (item) => block.top == item.top && block.left == item.left,

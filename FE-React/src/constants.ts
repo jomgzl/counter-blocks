@@ -1,0 +1,1 @@
+export const uiFifty = 50;
